@@ -37,7 +37,7 @@ class RootContainer {
 			foreach ($container_descriptors as $descriptor) {
 				if ($descriptor['enable']) {
 					$container = $descriptor['factory'](self::$rootContainer);
-					$rootContainer->addContainer($container);
+					self::$rootContainer->addContainer($container);
 				}
 			}
 		}
