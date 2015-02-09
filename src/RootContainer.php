@@ -1,5 +1,5 @@
 <?php
-namespace Mouf;
+namespace Mouf\RootContainer;
 
 use Acclimate\Container\CompositeContainer;
 use Interop\Container\ContainerInterface;
@@ -12,6 +12,10 @@ use Interop\Container\ContainerInterface;
 class RootContainer {
 	
 	private static $rootContainer;
+
+	public static function init(ContainerInterface $rootContainer) {
+		self::$rootContainer = $rootContainer;
+	}
 	
 	/**
 	 * Finds an entry of the root container by its identifier and returns it.
@@ -20,27 +24,16 @@ class RootContainer {
 	 * @return mixed
 	 */
 	public static function get($id) {
-		return self::getInstance()->get($id);
+		return self::$rootContainer->get($id);
 	}
-	
+
 	/**
-	 * Returns the instance of the root container.
-	 * 
-	 * @return ContainerInterface 
+	 * Returns true if an entry is found in the root container.
+	 *
+	 * @param string $id
+	 * @return bool
 	 */
-	public static function getInstance() {
-		if (!self::$rootContainer) {
-			self::$rootContainer = new CompositeContainer();
-			
-			$container_descriptors = require __DIR__.'/../../../../containers.php';
-			
-			foreach ($container_descriptors as $descriptor) {
-				if ($descriptor['enable']) {
-					$container = $descriptor['factory'](self::$rootContainer);
-					self::$rootContainer->addContainer($container);
-				}
-			}
-		}
-		return self::$rootContainer;
+	public static function has($id) {
+		return self::$rootContainer->has($id);
 	}
 }
