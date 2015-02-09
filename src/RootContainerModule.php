@@ -32,7 +32,7 @@ class RootContainerModule implements ModuleInterface {
 	 */
 	function getContainer(ContainerInterface $rootContainer)
 	{
-		// TODO: Implement getContainer() method.
+		RootContainer::init($rootContainer);
 	}
 
 	/**
